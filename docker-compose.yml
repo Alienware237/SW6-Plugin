@@ -1,18 +1,18 @@
-version: '3'
+version: '3.8'
 
 services:
   shopware:
     image: dockware/dev:latest
-    container_name: shopware
+    container_name: shopware-app
     ports:
       - "80:80"
-      - "3306:3306"
+      - "3307:3306"
       - "22:22"
       - "8888:8888"
       - "9999:9999"
     volumes:
-      - "db_volume:/var/lib/mysql"
-      - "shop_volume:/var/www/html"
+       - "db_volume:/var/lib/mysql"
+       - "shop_volume:/var/www/html"
     networks:
       - web
     environment:
@@ -27,7 +27,7 @@ volumes:
 
 networks:
   web:
-    external: false
+    driver: bridge
 
 
 
