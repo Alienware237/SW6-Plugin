@@ -1,0 +1,32 @@
+{
+    "name": "okpt/add-multiple-item-to-shopping-cart",
+    "description": "Plugin to add multiple products to the shopping cart",
+    "type": "shopware-platform-plugin",
+    "version": "1.0.0",
+    "license": "MIT",
+    "require": {
+        "shopware/core": "~6.6.0"
+    },
+    "extra": {
+        "shopware-plugin-class": "OKPT\\AddMultipleItemToShoppingCart\\OKPTAddMultipleItemToShoppingCart\\OKPTAddMultipleItemToShoppingCart",
+        "label": {
+            "de-DE": "Skeleton plugin",
+            "en-GB": "Skeleton plugin"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "OKPT\\AddMultipleItemToShoppingCart\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "OKPT\\AddMultipleItemToShoppingCart\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "symfony/runtime": true
+        }
+    }
+}

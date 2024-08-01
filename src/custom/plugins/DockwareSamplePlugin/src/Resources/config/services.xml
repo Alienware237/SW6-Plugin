@@ -8,6 +8,14 @@
 
         <service id="DockwareSamplePlugin\Subscriber\Storefront\Subscriber" class="DockwareSamplePlugin\Subscriber\Storefront\Subscriber">
             <tag name="kernel.event_subscriber"/>
+       </service>
+       <service id="DockwareSamplePlugin\Storefront\Controller\ExampleController" public="true">
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+            <call method="setTwig">
+                <argument type="service" id="twig"/>
+            </call>
         </service>
         
     </services>
