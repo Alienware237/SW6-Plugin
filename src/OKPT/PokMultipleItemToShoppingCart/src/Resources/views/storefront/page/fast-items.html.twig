@@ -1,7 +1,7 @@
 {% sw_extends '@Storefront/storefront/page/content/index.html.twig' %}
 
 {% block page_content %}
-    <form action="{{ path('frontend.fast.order.add') }}" method="post">
+    <form action="{{ path('frontend.add_items_to_shopping_cart') }}" method="post">
         {% for i in 1..10 %}
             <div>
                 <label for="productNumber{{ i }}">Product Number {{ i }}:</label>

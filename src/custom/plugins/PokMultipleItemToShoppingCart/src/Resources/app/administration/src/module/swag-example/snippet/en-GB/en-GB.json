@@ -1,0 +1,8 @@
+{
+    "swag-example": {
+        "general": {
+            "mainMenuItemGeneral": "Example",
+            "descriptionTextModule": "Description of the example module"
+        }
+    }
+}

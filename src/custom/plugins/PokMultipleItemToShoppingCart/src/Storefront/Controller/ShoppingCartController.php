@@ -2,6 +2,7 @@
 
 namespace PokMultipleItemToShoppingCart\Storefront\Controller;
 
+use Shopware\Core\Checkout\Cart\LineItem\LineItem;
 use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\Context;
@@ -32,28 +33,29 @@ class ShoppingCartController extends StorefrontController
     )]
     public function showForm(Request $request, SalesChannelContext $context): Response
     {
-        return $this->renderStorefront('@OKPTAddMultipleItemToShoppingCart//Resources/views/storefront/page/fast-items.html.twig', [
+        return $this->renderStorefront('@PokMultipleItemToShoppingCart/storefront/page/fast-items.html.twig', [
             'example' => 'Hello world'
         ]);
     }
     #[Route(
         path: '/items-to-shopping-cart/add',
-        name: 'frontend.items_to_shopping_cart.page',
-        methods: ['GET']
+        name: 'frontend.add_items_to_shopping_cart',
+        methods: ['POST']
     )]
     public function addToCart(Request $request, SalesChannelContext $context): RedirectResponse
     {
-        $productNumbers = $request->request->get('productNumbers', []);
-        $quantities = $request->request->get('quantities', []);
+        $items = $request->request->get('items', []);
 
-        $products = [];
-        foreach ($productNumbers as $key => $productNumber) {
-            $quantity = (int)($quantities[$key] ?? 1);
-            $this->cartService->add($context->getToken(), $productNumber, $quantity, $context);
-            $products[] = ['productNumber' => $productNumber, 'quantity' => $quantity];
+        foreach ($items as $item) {
+            $productNumber = $item['productNumber'];
+            $quantity = (int)$item['quantity'];
+
+            // Add the product to the cart using Shopware's cart service
+            $this->cartService->add($context->getToken(), new LineItem($productNumber, LineItem::PRODUCT_LINE_ITEM_TYPE, $productNumber, $quantity), $context);
         }
 
-        $this->logOrder($context->getToken(), $products);
+
+        $this->logOrder($context->getToken(), $items);
 
         return new RedirectResponse($this->generateUrl('frontend.checkout.cart.page'));
     }
