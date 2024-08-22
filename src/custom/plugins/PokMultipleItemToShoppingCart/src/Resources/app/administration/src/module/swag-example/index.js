@@ -2,12 +2,12 @@
 import './page/swag-example-list';
 import './page/swag-example-detail';
 import './page/swag-example-create';
-import deDE from './snippet/de-DE';
-import enGB from './snippet/en-GB';
+import deDE from './snippet/de-DE/de-DE.json';
+import enGB from './snippet/en-GB/en-GB.json';
 
 Shopware.Module.register('swag-example', {
     type: 'plugin',
-    name: 'Example',
+    name: 'Multiple Item In shopping cart',
     title: 'swag-example.general.mainMenuItemGeneral',
     description: 'sw-property.general.descriptionTextModule',
     color: '#ff3d58',
@@ -39,11 +39,14 @@ Shopware.Module.register('swag-example', {
         }
     },
 
-    navigation: [{
+    navigation:[{
+	id: 'swag-custummodule-list',
         label: 'swag-example.general.mainMenuItemGeneral',
         color: '#ff3d58',
         path: 'swag.example.list',
         icon: 'default-shopping-paper-bag-product',
+	parent: 'sw-catalogue',
         position: 100
     }]
 });
+

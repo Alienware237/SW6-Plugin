@@ -19,14 +19,26 @@ class Migration1722510491OrderLog extends MigrationStep
 
     public function update(Connection $connection): void
     {
-	    $connection->executeStatement("
-            CREATE TABLE IF NOT EXISTS `fast_order_log` (
+
+	    // Create the Product table with a foreign key to Admin
+	$connection->executeStatement("
+             CREATE TABLE `customer_selection` (
                 `id` BINARY(16) NOT NULL,
-                `session_id` VARCHAR(255) NOT NULL,
+                `customer_id` BINARY(16) NOT NULL,
+                `product_id` BINARY(16) NOT NULL,
+                `quantity` INT NOT NULL,
                 `created_at` DATETIME(3) NOT NULL,
-                `products` LONGTEXT NOT NULL,
-                PRIMARY KEY (`id`)
+                PRIMARY KEY (`id`),
+                CONSTRAINT `fk.customer_selection.customer_id` FOREIGN KEY (`customer_id`)
+                    REFERENCES `customer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+                CONSTRAINT `fk.customer_selection.product_id` FOREIGN KEY (`product_id`)
+                    REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
         ");
+    }
+
+    public function updateDestructive(Connection $connection): void
+    {
+        // Implement update destructive
     }
 }

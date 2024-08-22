@@ -1,16 +1,106 @@
 {% sw_extends '@Storefront/storefront/page/content/index.html.twig' %}
 
 {% block page_content %}
-    <form action="{{ path('frontend.fast.order.add') }}" method="post">
-        {% for i in 1..10 %}
-            <div>
-                <label for="productNumber{{ i }}">Product Number {{ i }}:</label>
-                <input type="text" name="items[{{ i }}][productNumber]" id="productNumber{{ i }}" required>
-                <label for="quantity{{ i }}">Quantity {{ i }}:</label>
-                <input type="number" name="items[{{ i }}][quantity]" id="quantity{{ i }}" min="1" required>
-            </div>
-        {% endfor %}
-        <button type="submit">Add to cart</button>
-    </form>
+    <div class="fast-order-container" data-example-plugin>
+        <div class="tabs">
+            <button id="tab-enter-articles" class="tablink active">Enter articles</button>
+            <button id="tab-upload-csv" class="tablink">Upload (CSV)</button>
+        </div>
+
+        <div id="enter-articles" class="tabcontent active">
+            <form action="{{ path('frontend.add_items_to_shopping_cart') }}" method="POST">
+                <div class="articles-section">
+                    {% for i in 1..10 %}
+                        <div class="article-row">
+                             <!-- Input for product number -->
+                    <input type="text" name="products[{{ i }}][productNumber]" id="productSearch{{ i }}" placeholder="Product Number" class="article-input" autocomplete="off">
+                    <div class="suggestions" id="suggestions{{ i }}"></div>
+
+                    <!-- Hidden input for product ID -->
+                    <input type="hidden" name="products[{{ i }}][productId]" id="productId{{ i }}">
+
+                    <!-- Input for quantity -->
+                    <input type="number" name="products[{{ i }}][quantity]" placeholder="Quantity" class="quantity-input">
+                        </div>
+                    {% endfor %}
+                </div>
+                <button type="submit" class="btn-submit">Add to shopping cart</button>
+            </form>
+        </div>
+
+        <!-- Upload CSV Tab -->
+        <div id="upload-csv" class="tabcontent">
+            <form action="{{ path('frontend.add_items_to_shopping_cart.upload_csv') }}" method="POST" enctype="multipart/form-data">
+                <p>Here you can upload a list of articles and quantities. Please use a CSV file with `char ;` as delimiter.</p>
+                <p><strong>Attention:</strong> The shopping list will be completely overwritten after uploading the file. Please use the download function to save your list. You can upload the file later and continue your work with it. You can use a downloaded file as a template for new lists.</p>
+                
+                <div class="upload-section">
+                    <label for="csvFile">Choose CSV File:</label>
+                    <input type="file" name="csvFile" id="csvFile" accept=".csv" required>
+                </div>
+                
+                <div class="field-to-process-section">
+                    <label for="fieldToProcess">Select field to process:</label>
+                    <select name="fieldToProcess" id="fieldToProcess" required>
+                        <option value="" disabled selected>Select field...</option>
+                        <option value="articles">Articles</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn-upload">Upload file</button>
+            </form>
+        </div>
+    </div>
+
+{% block layout_head_javascript_hmr_mode %}
+    {# Renders Storefront script: <script src="https://your-shop.example/theme/747e1c6a73cf4d70f5e831b30554dd15/js/all.js?1698139296" defer></script> #}
+
+    {# Your script #}
+    <script defer>
+       console.log("Test script !!");
+       document.addEventListener('DOMContentLoaded', function () {
+    for (let i = 1; i <= 10; i++) {
+        let searchInput = document.getElementById(`productSearch${i}`);
+        let suggestionBox = document.getElementById(`suggestions${i}`);
+        let productIdInput = document.getElementById(`productId${i}`);  // Hidden input for productId
+
+        searchInput.addEventListener('keyup', function () {
+            let query = this.value;
+            if (query.length >= 2) {  // Start searching after 2 characters
+                fetch(`/fast-items/search-product?term=${query}`, {
+                    method: 'GET',
+                })
+                .then(response => response.json())
+                .then(data => {
+                    let suggestions = '';
+                    data.forEach(product => {
+                        //console.log('ProductId: ', product.productNumber);
+                        suggestions += `<div class="suggestion-item" data-id="${product.id}">${product.productNumber}</div>`;
+                    });
+                    suggestionBox.innerHTML = suggestions;
+                });
+            } else {
+                suggestionBox.innerHTML = '';
+            }
+        });
+
+        // Handle product selection from suggestions
+        suggestionBox.addEventListener('click', function (event) {
+            if (event.target.classList.contains('suggestion-item')) {
+                const productNumber = event.target.textContent;
+                const productId = event.target.dataset.id;
+
+                // Fill the inputs with selected product information
+                    searchInput.value = productNumber;
+                    productIdInput.value = productId;
+
+                suggestionBox.innerHTML = '';  // Clear the suggestions
+            }
+        });
+    }
+});
+    </script>
+{% endblock %}
+
 {% endblock %}
 

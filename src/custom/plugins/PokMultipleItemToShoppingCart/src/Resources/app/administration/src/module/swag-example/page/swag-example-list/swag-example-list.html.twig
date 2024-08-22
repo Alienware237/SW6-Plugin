@@ -1,0 +1,109 @@
+{# <plugin root>/src/Resources/app/administration/src/module/swag-example/page/swag-example-list/swag-example-list.html.twig #}
+
+<template data-example-plugin data-form-plugin>
+    <sw-card title="Add Articles to Shopping Cart" class="your-module-name-card">
+        <sw-tabs>
+            <sw-tabs-item name="enter-articles" id="tab-enter-articles">
+                <sw-icon name="regular-file-edit" /> Enter articles
+            </sw-tabs-item>
+            <sw-tabs-item name="upload-csv" id="tab-upload-csv">
+                <sw-icon name="regular-upload" /> Upload (CSV)
+            </sw-tabs-item>
+        </sw-tabs>
+
+        <sw-text class="your-module-name-description">
+            Please enter the articles and quantities you want to order. The availability of the article is checked and displayed directly while typing. You can enter all data completely via keyboard. In the result list, you can navigate through the results with the arrow up and arrow down key. With the enter key, you can select the correct entry.
+        </sw-text>
+
+        {# Use Twig to render the appropriate content based on selectedTab #}
+        <div id="enter-articles-content" class="tab-content">
+            <sw-container columns="1fr 1fr">
+                <sw-card-section divider="right">
+                    <h2>Articles</h2>
+                    {% for i in 0..5 %}
+                        <sw-text-field
+                            type="text"
+                            placeholder="Search article">
+                        </sw-text-field>
+                    {% endfor %}
+                </sw-card-section>
+                <sw-card-section>
+                    <h2>Quantity</h2>
+                    {% for i in 0..5 %}
+                        <sw-text-field
+                            type="number"
+                            placeholder="Quantity">
+                        </sw-text-field>
+                    {% endfor %}
+                </sw-card-section>
+            </sw-container>
+        </div>
+
+        <div id="upload-csv-content" class="tab-content" style="display:none;">
+            <sw-file-input
+                v-model="selectedFile"
+                label="My file input"
+                :allowedMimeTypes="['text/csv','text/xml']"
+                :maxFileSize="8*1024*1024">
+            </sw-file-input>
+        </div>
+
+        <br>
+
+        <sw-button-process :animationTimeout="1250" variant="primary">
+            Add to shopping list
+        </sw-button-process>
+    </sw-card>
+</template>
+
+
+{% block javascripts %}
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    var tabEnterArticles = document.getElementById('tab-enter-articles');
+    var tabUploadCsv = document.getElementById('tab-upload-csv');
+    var enterArticlesContent = document.getElementById('enter-articles-content');
+    var uploadCsvContent = document.getElementById('upload-csv-content');
+
+    tabEnterArticles.addEventListener('click', function() {
+        console.log("Tab to enter the article!");
+        enterArticlesContent.style.display = 'block';
+        uploadCsvContent.style.display = 'none';
+    });
+
+    tabUploadCsv.addEventListener('click', function() {
+        console.log("Upload csv-content!");
+        enterArticlesContent.style.display = 'none';
+        uploadCsvContent.style.display = 'block';
+    });
+});
+</script>
+{% endblock %}
+
+<style scoped>
+    .swag-example-list {
+        padding: 20px;
+    }
+
+    .swag-example-card {
+        margin-bottom: 20px;
+    }
+
+    .swag-example-description {
+        margin-bottom: 20px;
+    }
+
+    .swag-example-grid {
+        margin-bottom: 20px;
+    }
+
+    .swag-example-total-amount {
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    .swag-example-button {
+        width: 100%;
+    }
+</style>
+
