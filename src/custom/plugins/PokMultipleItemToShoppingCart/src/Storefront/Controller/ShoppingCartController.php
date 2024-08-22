@@ -71,6 +71,7 @@ class ShoppingCartController extends StorefrontController
     public function uploadCSV(Request $request, SalesChannelContext $context)
     {
         $this->fastOrderService->processCSVUpload($request, $context);
+
         return $this->redirectToRoute('frontend.checkout.cart.page');
     }
 
