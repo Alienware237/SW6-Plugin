@@ -68,9 +68,10 @@ class ShoppingCartController extends StorefrontController
         name: 'frontend.add_items_to_shopping_cart.upload_csv',
         methods: ['POST']
     )]
-    public function uploadCSV(Request $request)
+    public function uploadCSV(Request $request, SalesChannelContext $context)
     {
-        $this->fastOrderService->processCSVUpload($request);
+        $this->fastOrderService->processCSVUpload($request, $context);
+
         return $this->redirectToRoute('frontend.checkout.cart.page');
     }
 
