@@ -28,15 +28,25 @@
             </form>
         </div>
 
+        <!-- Upload CSV Tab -->
         <div id="upload-csv" class="tabcontent">
             <form action="{{ path('frontend.add_items_to_shopping_cart.upload_csv') }}" method="POST" enctype="multipart/form-data">
+                <p>Here you can upload a list of articles and quantities. Please use a CSV file with `char ;` as delimiter.</p>
+                <p><strong>Attention:</strong> The shopping list will be completely overwritten after uploading the file. Please use the download function to save your list. You can upload the file later and continue your work with it. You can use a downloaded file as a template for new lists.</p>
+                
                 <div class="upload-section">
                     <label for="csvFile">Choose CSV File:</label>
-                    <input type="file" name="csvFile" id="csvFile" accept=".csv">
-                    <select name="fieldToProcess">
-                        <option value="articles">Select field to process...</option>
+                    <input type="file" name="csvFile" id="csvFile" accept=".csv" required>
+                </div>
+                
+                <div class="field-to-process-section">
+                    <label for="fieldToProcess">Select field to process:</label>
+                    <select name="fieldToProcess" id="fieldToProcess" required>
+                        <option value="" disabled selected>Select field...</option>
+                        <option value="articles">Articles</option>
                     </select>
                 </div>
+                
                 <button type="submit" class="btn-upload">Upload file</button>
             </form>
         </div>
