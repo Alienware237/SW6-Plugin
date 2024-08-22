@@ -1,0 +1,69 @@
+.fast-order-container {
+    .tabs {
+        display: flex;
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #f1f1f1;
+            border: none;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+
+            &.active {
+                background-color: #007bff;
+                color: white;
+            }
+        }
+    }
+
+    .tabcontent {
+        display: none;
+        padding: 20px;
+
+        &.active {
+            display: block;
+        }
+    }
+
+    .article-row {
+        display: flex;
+        margin-bottom: 10px;
+
+        .article-input, .quantity-input {
+            margin-right: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    }
+
+    .btn-submit, .btn-upload {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+
+        &:hover {
+            background-color: #0056b3;
+        }
+    }
+
+ .suggestions {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    width: 100%;
+    z-index: 1000;
+}
+
+.suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0;
+}
+}
+

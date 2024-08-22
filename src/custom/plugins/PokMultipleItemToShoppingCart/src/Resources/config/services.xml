@@ -24,8 +24,9 @@
             </call>
        </service>
        <service id="PokMultipleItemToShoppingCart\Storefront\Controller\ShoppingCartController" public="true">
-            <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
-            <argument type="service" id="order_log.repository"/>
+            <argument type="service" id="PokMultipleItemToShoppingCart\Storefront\Service\FastOrderService"/>
+	    <argument type="service" id="order_log.repository"/>
+	    <argument type="service" id="product.repository"/>
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
             </call>
@@ -39,13 +40,34 @@
         </service>
 
         <service id="PokMultipleItemToShoppingCart\Core\Content\OrderLog\OrderLogDefinition">
-            <tag name="shopware.entity.definition" entity="order_log" />
+            <tag name="shopware.entity.definition" entity="order_log"/>
         </service>
 
         <service id="PokMultipleItemToShoppingCart\Service\CustomFieldsInstaller">
-            <argument type="service" id="custom_field_set.repository"/>
-            <argument type="service" id="custom_field_set_relation.repository"/>
+            <argument type="service" id="custom_field_set.repository" />
+            <argument type="service" id="custom_field_set_relation.repository" />
+        </service>
+
+	    <service id="PokMultipleItemToShoppingCart\Core\Content\CustomerSelection\CustomerSelectionDefinition">
+             <tag name="shopware.entity.definition" entity="customer_selection" />
+        </service>
+
+	<service id="PokMultipleItemToShoppingCart\Repository\CustomerSelectionRepository">
+            <argument type="service" id="PokMultipleItemToShoppingCart\Core\Content\CustomerSelection\CustomerSelectionDefinition" />
+	    <argument type="service" id="Shopware\Core\Framework\DataAbstractionLayer\Read\EntityReaderInterface" />
+	    <argument type="service" id="Shopware\Core\Framework\DataAbstractionLayer\VersionManager" />
+            <argument type="service" id="Shopware\Core\Framework\DataAbstractionLayer\Search\EntitySearcherInterface" />
+	    <argument type="service" id="Shopware\Core\Framework\DataAbstractionLayer\Search\EntityAggregatorInterface" />
+	    <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="Shopware\Core\Framework\DataAbstractionLayer\Event\EntityLoadedEventFactory" />
+        </service>
+        
+        <service id="PokMultipleItemToShoppingCart\Storefront\Service\FastOrderService" public="true">
+            <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService" />
+            <argument type="service" id="product.repository" />
+            <argument type="service" id="PokMultipleItemToShoppingCart\Repository\CustomerSelectionRepository" />
         </service>
 
     </services>
 </container>
+
