@@ -44,7 +44,8 @@ class CustomerSelectionDefinition extends EntityDefinition
             (new FkField('customer_id', 'customerId', CustomerDefinition::class))->addFlags(new Required()),
             (new FkField('product_id', 'productId', ProductDefinition::class))->addFlags(new Required()),
             (new IntField('quantity', 'quantity'))->addFlags(new Required()),
-            (new DateTimeField('created_at', 'createdAt'))->addFlags(new Required()),
+	    (new DateTimeField('created_at', 'createdAt'))->addFlags(new Required()),
+	    (new DateTimeField('updated_at', 'updatedAt'))->addFlags(new Required()),
 
             // Associations
             new ManyToOneAssociationField('customer', 'customer_id', CustomerDefinition::class),

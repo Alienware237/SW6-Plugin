@@ -9,6 +9,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\ContainsFilter;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Shopware\Core\Framework\Uuid\Uuid;
 use DateTimeImmutable;
@@ -58,6 +59,7 @@ class FastOrderService
                         'productId' => $productId,
                         'quantity' => (int)$quantity,
                         'createdAt' => $dateTimeNow,
+                        'updatedAt' => $dateTimeNow
                     ]
                 ], $context->getContext());
 
@@ -77,7 +79,9 @@ class FastOrderService
         }
 
 	$file = $request->files->get('csvFile');
-	 $fieldToProcess = $request->get('fieldToProcess');
+	$fieldToProcess = $request->get('fieldToProcess');
+
+	$dateTimeNow = new DateTimeImmutable();
 
         if (!$file || !$file->isValid()) {
             throw new FileException('Invalid CSV file upload.');
@@ -119,7 +123,8 @@ class FastOrderService
                         'customerId' => $customer->getId(),
                         'productId' => trim($productId),
                         'quantity' => (int)$quantity,
-                        'createdAt' => new DateTimeImmutable(),
+		        'createdAt' => $dateTimeNow,
+                        'updatedAt' => $dateTimeNow	
                     ]
                 ], $context->getContext());
             }

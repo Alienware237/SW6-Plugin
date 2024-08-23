@@ -33,7 +33,7 @@
             <call method="setTwig">
                 <argument type="service" id="twig"/>
             </call>
-        </service> 
+      </service>
 
         <service id="PokMultipleItemToShoppingCart\Core\Content\Example\SalesChannel\ExampleRoute">
             <argument type="service" id="product.repository"/>
@@ -66,6 +66,15 @@
             <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService" />
             <argument type="service" id="product.repository" />
             <argument type="service" id="PokMultipleItemToShoppingCart\Repository\CustomerSelectionRepository" />
+        </service>
+
+	<!-- Register your controller as a service -->
+        <service id="PokMultipleItemToShoppingCart\Storefront\Controller\Admin\FastOperationsLogController">
+            <argument type="service" id="PokMultipleItemToShoppingCart\Repository\CustomerSelectionRepository"/>
+	    <tag name="controller.service_arguments"/>
+	    <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
         </service>
 
     </services>

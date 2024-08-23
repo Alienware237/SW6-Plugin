@@ -12,7 +12,8 @@ class CustomerSelectionEntity extends Entity
     protected string $customerId;
     protected string $productId;
     protected int $quantity;
-    protected \DateTimeImmutable $createdAt;
+    protected $createdAt;
+    protected $updatedAt;
 
     public function getCustomerId(): string
     {
@@ -44,14 +45,24 @@ class CustomerSelectionEntity extends Entity
         $this->quantity = $quantity;
     }
 
-    public function getCreatedAt(): \DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): void
+    public function setCreatedAt($createdAt): void
     {
         $this->createdAt = $createdAt;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt($updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
     }
 }
 
