@@ -70,9 +70,23 @@ class ShoppingCartController extends StorefrontController
     )]
     public function uploadCSV(Request $request, SalesChannelContext $context)
     {
-        $this->fastOrderService->processCSVUpload($request, $context);
 
-        return $this->redirectToRoute('frontend.checkout.cart.page');
+        $customer = $context->getCustomer();
+        if (!$customer instanceof CustomerEntity) {
+            return $this->redirectToRoute('frontend.account.login.page');  // Redirect to login if not logged in
+        }
+
+        try {
+            $this->fastOrderService->processCSVUpload($request, $context);
+            return $this->redirectToRoute('frontend.checkout.cart.page');
+        } catch (\RuntimeException $e) {
+            if ($e->getMessage() === 'Customer not logged in.') {
+                return $this->redirectToRoute('frontend.account.login.page');
+            }
+
+            throw $e;  // Handle other exceptions if necessary
+        }
+
     }
 
     private function logOrder(string $sessionId, array $products): void

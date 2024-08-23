@@ -27,13 +27,19 @@ class Migration1722510491OrderLog extends MigrationStep
                 `customer_id` BINARY(16) NOT NULL,
                 `product_id` BINARY(16) NOT NULL,
                 `quantity` INT NOT NULL,
-                `created_at` DATETIME(3) NOT NULL,
+		`created_at` DATETIME(3) NOT NULL,
+		`updated_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
                 PRIMARY KEY (`id`),
                 CONSTRAINT `fk.customer_selection.customer_id` FOREIGN KEY (`customer_id`)
                     REFERENCES `customer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
                 CONSTRAINT `fk.customer_selection.product_id` FOREIGN KEY (`product_id`)
                     REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+	");
+
+	$connection->executeStatement("
+               ALTER TABLE `customer_selection`
+               MODIFY `updated_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3);
         ");
     }
 

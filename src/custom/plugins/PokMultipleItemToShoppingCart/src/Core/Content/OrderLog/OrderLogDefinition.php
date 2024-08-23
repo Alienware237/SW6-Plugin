@@ -39,7 +39,8 @@ class OrderLogDefinition extends EntityDefinition
             (new StringField('description', 'description')),
 	    (new BoolField('active', 'active')),
 	    (new StringField('session_id', 'sessionId'))->addFlags(new Required()),
-            (new DateTimeField('created_at', 'createdAt'))->addFlags(new Required()),
+	    (new DateTimeField('created_at', 'createdAt'))->addFlags(new Required()),
+	    (new DateTimeField('updated_at', 'updatedAt'))->addFlags(new Required()),
             (new LongTextField('products', 'products'))->addFlags(new Required()),
         ]);
     }
