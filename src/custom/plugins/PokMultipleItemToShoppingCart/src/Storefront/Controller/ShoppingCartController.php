@@ -70,6 +70,7 @@ class ShoppingCartController extends StorefrontController
     )]
     public function uploadCSV(Request $request, SalesChannelContext $context)
     {
+
         $customer = $context->getCustomer();
         if (!$customer instanceof CustomerEntity) {
             return $this->redirectToRoute('frontend.account.login.page');  // Redirect to login if not logged in
@@ -85,6 +86,7 @@ class ShoppingCartController extends StorefrontController
 
             throw $e;  // Handle other exceptions if necessary
         }
+
     }
 
     private function logOrder(string $sessionId, array $products): void
