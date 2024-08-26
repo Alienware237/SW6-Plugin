@@ -20,25 +20,30 @@ To start the application using Docker:
 ```
 docker-compose up -d
 ```
+
+### Prepare development
+Now download the current version of the new Plugin "PokMultipleItemToShoppingCart" into the "custom/plugins/" directory your host.
+```
+docker cp src/custom/plugins/PokMultipleItemToShoppingCart/ shopware-app:/var/www/html/custom/plugins/.
+```
+
+Adjust the permission of the folder inside the container:
+```
+docker exec shopware-app chown -R www-data:www-data /var/www/html/custom/plugins/
+```
+
 ### Accessing the Application Container
 
 To access the Docker container for the application:
 ```
-docker exec -it furnics-project /bin/bash
+docker exec -it shopware-app bash
 ```
+
 ### Installing Composer Dependencies
 
 Install Composer dependencies manually if the vendor directory is not generated:
 ```
 composer install
-```
-
-### Prepare development
-Now download the current version of Shopware to your host into the "src" directory.
-This is required to have code completion and IntelliSense right in your IDE.
-```
-mkdir -p ./src
-docker cp shopware:/var/www/html/. ./src
 ```
 
 ### Installing Vim (Optional)
