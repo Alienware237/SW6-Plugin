@@ -13,6 +13,7 @@ services:
     volumes:
        - "db_volume:/var/lib/mysql"
        - "shop_volume:/var/www/html"
+       - "./src/custom/plugins:/var/www/html/custom/plugins"
     networks:
       - web
     environment:
@@ -28,6 +29,3 @@ volumes:
 networks:
   web:
     driver: bridge
-
-
-

@@ -21,22 +21,16 @@ To start the application using Docker:
 docker-compose up -d
 ```
 
-### Prepare development
-Now download the current version of the new Plugin "PokMultipleItemToShoppingCart" into the "custom/plugins/" directory your host.
-```
-docker cp src/custom/plugins/PokMultipleItemToShoppingCart/ shopware-app:/var/www/html/custom/plugins/.
-```
-
-Adjust the permission of the folder inside the container:
-```
-docker exec shopware-app chown -R www-data:www-data /var/www/html/custom/plugins/
-```
-
 ### Accessing the Application Container
 
 To access the Docker container for the application:
 ```
 docker exec -it shopware-app bash
+```
+
+Adjust the permission of the folder inside the container:
+```
+sudo chown -R www-data:www-data /var/www/html/custom/plugins
 ```
 
 ### Installing Composer Dependencies
@@ -50,7 +44,7 @@ composer install
 
 To install Vim for editing project file via vim:
 ```
-apt-get install vim
+sudo apt-get install vim
 ```
 
 Or you can add a new SFTP connection to your container:
@@ -59,8 +53,6 @@ Then add a new SFTP connection to your container. (Automatic-Upload is recommend
 Now you are done and ready to develop your own plugins.
 
 
-### Accessing the Application
-
 ### Install The plugin
 
 First update the list of plugins with the following command:
@@ -68,7 +60,7 @@ First update the list of plugins with the following command:
 php bin/console plugin:refresh
 ```
 
-Once the ‘PokMultipleItemToShoppingCart’ plugin has been recognised by Shopware, we need to install it with the following command:
+Once the "PokMultipleItemToShoppingCart" plugin has been recognised by Shopware, we need to install it with the following command:
 ```
 php bin/console plugin:install --activate PokMultipleItemToShoppingCart
 ```
@@ -107,5 +99,5 @@ Username: admin
 Password: shopware
 ```
 
-- Open The "Example" or "Customers operations" administration submodule under catalog:
+- Open The "My custom module" or "Customers operations" administration submodule under catalog:
 - ![add multiple products to the shopping cart module](https://f005.backblazeb2.com/file/app-stored-image/image1.png)
