@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace PokMultipleItemToShoppingCart\Core\Content\CustomerSelection;
 
@@ -15,4 +17,3 @@ class CustomerSelectionCollection extends EntityCollection
         return CustomerSelectionEntity::class;
     }
 }
-

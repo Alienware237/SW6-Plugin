@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace PokMultipleItemToShoppingCart\Core\Content\OrderLog;
 
@@ -37,10 +39,10 @@ class OrderLogDefinition extends EntityDefinition
             (new IdField('id', 'id'))->addFlags(new Required(), new PrimaryKey()),
             (new StringField('name', 'name')),
             (new StringField('description', 'description')),
-	    (new BoolField('active', 'active')),
-	    (new StringField('session_id', 'sessionId'))->addFlags(new Required()),
-	    (new DateTimeField('created_at', 'createdAt'))->addFlags(new Required()),
-	    (new DateTimeField('updated_at', 'updatedAt'))->addFlags(new Required()),
+        (new BoolField('active', 'active')),
+        (new StringField('session_id', 'sessionId'))->addFlags(new Required()),
+        (new DateTimeField('created_at', 'createdAt'))->addFlags(new Required()),
+        (new DateTimeField('updated_at', 'updatedAt'))->addFlags(new Required()),
             (new LongTextField('products', 'products'))->addFlags(new Required()),
         ]);
     }

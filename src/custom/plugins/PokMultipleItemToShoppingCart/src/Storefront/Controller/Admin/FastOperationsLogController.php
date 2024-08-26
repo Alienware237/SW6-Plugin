@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 // src/Controller/Admin/FastOperationsLogController.php
 
@@ -16,14 +18,13 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(defaults: ['_routeScope' => ['storefront']])]
 class FastOperationsLogController extends StorefrontController
 {
-
     private EntityRepository $customerSelectionRepository;
     private EntityRepository $productRepository;
 
     public function __construct(EntityRepository $customerSelectionRepository, EntityRepository $productRepository)
     {
-	  $this->customerSelectionRepository = $customerSelectionRepository;
-	  $this->productRepository = $productRepository;
+        $this->customerSelectionRepository = $customerSelectionRepository;
+        $this->productRepository = $productRepository;
     }
 
     #[Route(
@@ -53,7 +54,7 @@ class FastOperationsLogController extends StorefrontController
             // Search for the product using the product repository
             $product = $this->productRepository->search($productCriteria, $context->getContext())->first();
 
-	    // Add the product data to the record
+            // Add the product data to the record
             if ($product) {
                 $recordArray = $record->jsonSerialize(); // Convert entity to an array
                 $recordArray['product'] = [

@@ -65,4 +65,3 @@ class CustomerSelectionEntity extends Entity
         $this->updatedAt = $updatedAt;
     }
 }
-
