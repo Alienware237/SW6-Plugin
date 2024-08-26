@@ -12,13 +12,10 @@ Shopware.Component.register('swag-example-list', {
 
     data() {
         return {
-            logs: [
-		    { customer_id: '1234', product_id: '5678', quantity: 3, created_at: '2024-01-01 12:00:00', updated_at: '2024-01-01 12:00:00' },
-            { customer_id: '5678', product_id: '91011', quantity: 5, created_at: '2024-01-02 12:00:00', updated_at: '2024-01-02 12:00:00' }
-	    ],
+            logs: [],
             columns: [
                 { property: 'customer_id', label: 'Customer ID' },
-                { property: 'product_id', label: 'Product ID' },
+                { property: 'product_number', label: 'Product Number' },
                 { property: 'quantity', label: 'Quantity' },
                 { property: 'created_at', label: 'Created At' },
                 { property: 'actions', label: 'Actions' }
@@ -50,18 +47,15 @@ Shopware.Component.register('swag-example-list', {
             fetch(url, options)
                 .then(response => response.json())
                 .then(data => {
-                    console.log("Result data:", data);  // Inspect the result data
 
                     // Access the 'data' property and transform it into an array
     this.logs = Object.values(data.data).map(record => ({
         customer_id: record.customerId,
-        product_id: record.productId,
+        product_number: record.product?.productNumber || 'N/A', // Accessing the productNumber from the product object
         quantity: record.quantity,
         created_at: record.createdAt,
         updated_at: record.updatedAt
     }));
-
-    console.log("Transformed logs:", this.logs);  // Log the transformed data
 
                     this.isLoading = false;  // Stop loading
                 })

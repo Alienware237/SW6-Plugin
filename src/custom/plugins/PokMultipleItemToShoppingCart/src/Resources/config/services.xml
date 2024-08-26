@@ -70,7 +70,8 @@
 
 	<!-- Register your controller as a service -->
         <service id="PokMultipleItemToShoppingCart\Storefront\Controller\Admin\FastOperationsLogController">
-            <argument type="service" id="PokMultipleItemToShoppingCart\Repository\CustomerSelectionRepository"/>
+	    <argument type="service" id="PokMultipleItemToShoppingCart\Repository\CustomerSelectionRepository"/>
+	    <argument type="service" id="product.repository"/>
 	    <tag name="controller.service_arguments"/>
 	    <call method="setContainer">
                 <argument type="service" id="service_container"/>
