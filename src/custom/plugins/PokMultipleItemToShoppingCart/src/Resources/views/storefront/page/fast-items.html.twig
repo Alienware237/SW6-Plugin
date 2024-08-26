@@ -7,38 +7,48 @@
             <button id="tab-upload-csv" class="tablink">Upload (CSV)</button>
         </div>
 
+        {# Start of Article Input Form #}
         <div id="enter-articles" class="tabcontent active">
-            <form action="{{ path('frontend.add_items_to_shopping_cart') }}" method="POST">
+            <form id="articleForm" action="{{ path('frontend.add_items_to_shopping_cart') }}" method="POST">
                 <div class="articles-section">
                     {% for i in 1..10 %}
                         <div class="article-row">
-                             <!-- Input for product number -->
-                    <input type="text" name="products[{{ i }}][productNumber]" id="productSearch{{ i }}" placeholder="Product Number" class="article-input" autocomplete="off">
-                    <div class="suggestions" id="suggestions{{ i }}"></div>
+                            <!-- Input for Product Number -->
+                            <input type="text" name="products[{{ i }}][productNumber]" id="productSearch{{ i }}" placeholder="Product Number" class="article-input" autocomplete="off">
+                            <div class="suggestions" id="suggestions{{ i }}"></div>
 
-                    <!-- Hidden input for product ID -->
-                    <input type="hidden" name="products[{{ i }}][productId]" id="productId{{ i }}">
+                            <!-- Hidden Input for Product ID -->
+                            <input type="hidden" name="products[{{ i }}][productId]" id="productId{{ i }}">
 
-                    <!-- Input for quantity -->
-                    <input type="number" name="products[{{ i }}][quantity]" placeholder="Quantity" class="quantity-input">
+                            <!-- Input for Quantity -->
+                            <input type="number" name="products[{{ i }}][quantity]" placeholder="Quantity" class="quantity-input">
                         </div>
                     {% endfor %}
                 </div>
+
+                <!-- Submit Button for Article Form -->
                 <button type="submit" class="btn-submit">Add to shopping cart</button>
             </form>
-        </div>
 
-        <!-- Upload CSV Tab -->
+            <!-- Error Message for Article Form -->
+            <div id="articleFormMessage" class="form-message" style="display:none; color:#f94449">Please fill out all required fields!</div>
+        </div>
+        {# End of Article Input Form #}
+
+
+        {# Start of Upload CSV Form #}
         <div id="upload-csv" class="tabcontent">
-            <form action="{{ path('frontend.add_items_to_shopping_cart.upload_csv') }}" method="POST" enctype="multipart/form-data">
+            <form id="uploadCsvForm" action="{{ path('frontend.add_items_to_shopping_cart.upload_csv') }}" method="POST" enctype="multipart/form-data">
                 <p>Here you can upload a list of articles and quantities. Please use a CSV file with `char ;` as delimiter.</p>
-                <p><strong>Attention:</strong> The shopping list will be completely overwritten after uploading the file. Please use the download function to save your list. You can upload the file later and continue your work with it. You can use a downloaded file as a template for new lists.</p>
-                
+                <p><strong>Attention:</strong> The shopping list will be completely overwritten after uploading the file. Please use the download function to save your list.</p>
+
+                <!-- File Input for CSV File -->
                 <div class="upload-section">
-                    <label for="csvFile">Choose CSV File:</label>
+                    <label for="csvFile">Choose CSV File or drag and drop:</label>
                     <input type="file" name="csvFile" id="csvFile" accept=".csv" required>
                 </div>
-                
+
+                <!-- Select Field to Process -->
                 <div class="field-to-process-section">
                     <label for="fieldToProcess">Select field to process:</label>
                     <select name="fieldToProcess" id="fieldToProcess" required>
@@ -46,10 +56,15 @@
                         <option value="articles">Articles</option>
                     </select>
                 </div>
-                
+
+                <!-- Submit Button for CSV Upload Form -->
                 <button type="submit" class="btn-upload">Upload file</button>
             </form>
+
+            <!-- Error Message for CSV Form -->
+            <div id="csvFormMessage" class="form-message" style="display:none; color:#f94449">Please select a valid CSV file and fill out all fields!</div>
         </div>
+        {# End of Upload CSV Form #}
     </div>
 
 {% block layout_head_javascript_hmr_mode %}
@@ -57,7 +72,6 @@
 
     {# Your script #}
     <script defer>
-       console.log("Test script !!");
        document.addEventListener('DOMContentLoaded', function () {
     for (let i = 1; i <= 10; i++) {
         let searchInput = document.getElementById(`productSearch${i}`);
@@ -99,6 +113,59 @@
         });
     }
 });
+
+       document.addEventListener('DOMContentLoaded', function () {
+
+           {# JavaScript for Article Input Form Validation #}
+           const articleForm = document.getElementById('articleForm');
+           const articleFormMessage = document.getElementById('articleFormMessage');
+
+           articleForm.addEventListener('submit', function (event) {
+               let isValid = true;
+
+               // Loop through all inputs in the form to check if they are filled
+               const inputs = articleForm.querySelectorAll('input[type="text"], input[type="number"]');
+               inputs.forEach(input => {
+                   if (input.value.trim() === '') {
+                       isValid = false;
+                   }
+               });
+
+               if (!isValid) {
+                   // Prevent form submission if inputs are invalid
+                   event.preventDefault();
+
+                   // Show error message and hide after 5 seconds
+                   articleFormMessage.style.display = 'block';
+                   setTimeout(() => {
+                       articleFormMessage.style.display = 'none';
+                   }, 5000);
+               }
+           });
+
+           {# JavaScript for CSV Upload Form Validation #}
+           const csvForm = document.getElementById('uploadCsvForm');
+           const csvFileInput = document.getElementById('csvFile');
+           const fieldToProcessSelect = document.getElementById('fieldToProcess');
+           const csvFormMessage = document.getElementById('csvFormMessage');
+
+           csvForm.addEventListener('submit', function (event) {
+               const csvFile = csvFileInput.files[0];
+               const fieldSelected = fieldToProcessSelect.value;
+
+               // Validate if a valid CSV file is selected and if the field is chosen
+               if (!csvFile || !csvFile.name.endsWith('.csv') || !fieldSelected) {
+                   // Prevent form submission if validation fails
+                   event.preventDefault();
+
+                   // Show error message and hide after 5 seconds
+                   csvFormMessage.style.display = 'block';
+                   setTimeout(() => {
+                       csvFormMessage.style.display = 'none';
+                   }, 5000);
+               }
+           });
+       });
     </script>
 {% endblock %}
 
