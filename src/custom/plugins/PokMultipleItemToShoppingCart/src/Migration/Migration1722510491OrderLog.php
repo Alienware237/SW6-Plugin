@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace PokMultipleItemToShoppingCart\Migration;
 
@@ -20,8 +22,8 @@ class Migration1722510491OrderLog extends MigrationStep
     public function update(Connection $connection): void
     {
 
-	    // Create the Product table with a foreign key to Admin
-	$connection->executeStatement("
+        // Create the Product table with a foreign key to Admin
+        $connection->executeStatement("
              CREATE TABLE `customer_selection` (
                 `id` BINARY(16) NOT NULL,
                 `customer_id` BINARY(16) NOT NULL,
@@ -37,7 +39,7 @@ class Migration1722510491OrderLog extends MigrationStep
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 	");
 
-	$connection->executeStatement("
+        $connection->executeStatement("
                ALTER TABLE `customer_selection`
                MODIFY `updated_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3);
         ");

@@ -34,23 +34,23 @@ class FastOrderService
     public function addToCart(Request $request, SalesChannelContext $context): void
     {
         $customer = $context->getCustomer();
-	$submittedArticles = $request->get('products', []);
+        $submittedArticles = $request->get('products', []);
 
-	echo "submittedArticles: ";
+        echo "submittedArticles: ";
         print_r($submittedArticles);
 
-	$dateTimeNow = new DateTimeImmutable();
+        $dateTimeNow = new DateTimeImmutable();
 
         if (!$customer instanceof CustomerEntity) {
             throw new \RuntimeException("Customer not logged in.");
         }
 
         foreach ($submittedArticles as $article) {
-		$productNumber = $article['id'] ?? null;
-		$productId = $article['productId'] ?? null;
-                $quantity = $article['quantity'] ?? null;
+            $productNumber = $article['id'] ?? null;
+            $productId = $article['productId'] ?? null;
+            $quantity = $article['quantity'] ?? null;
 
-	    if ($productId && $quantity) {
+            if ($productId && $quantity) {
                 // Store customer selection in the custom entity
                 $this->customerSelectionRepository->create([
                     [
@@ -78,26 +78,26 @@ class FastOrderService
             throw new \RuntimeException("Customer not logged in.");
         }
 
-	$file = $request->files->get('csvFile');
-	$fieldToProcess = $request->get('fieldToProcess');
+        $file = $request->files->get('csvFile');
+        $fieldToProcess = $request->get('fieldToProcess');
 
-	$dateTimeNow = new DateTimeImmutable();
+        $dateTimeNow = new DateTimeImmutable();
 
         if (!$file || !$file->isValid()) {
             throw new FileException('Invalid CSV file upload.');
         }
 
         // Read CSV file with ; as delimiter
-        $csvData = array_map(function($line) {
+        $csvData = array_map(function ($line) {
             return str_getcsv($line, ';');
-	}, file($file->getPathname(), FILE_SKIP_EMPTY_LINES));
+        }, file($file->getPathname(), FILE_SKIP_EMPTY_LINES));
 
         foreach ($csvData as $index => $row) {
             if ($index === 0) {
                 continue; // Skip header row
-	    }
+            }
 
-	    // Check if both columns (productNumber and quantity) are available
+            // Check if both columns (productNumber and quantity) are available
             if (!isset($row[0]) || !isset($row[1])) {
                 continue; // Skip rows that do not have both product number and quantity
             }
@@ -123,8 +123,8 @@ class FastOrderService
                         'customerId' => $customer->getId(),
                         'productId' => trim($productId),
                         'quantity' => (int)$quantity,
-		        'createdAt' => $dateTimeNow,
-                        'updatedAt' => $dateTimeNow	
+                'createdAt' => $dateTimeNow,
+                        'updatedAt' => $dateTimeNow
                     ]
                 ], $context->getContext());
             }
@@ -142,4 +142,3 @@ class FastOrderService
         $this->cartService->add($cart, $lineItem, $context);
     }
 }
-

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace PokMultipleItemToShoppingCart\Storefront\Controller;
 
@@ -28,9 +30,9 @@ class ShoppingCartController extends StorefrontController
 
     public function __construct(FastOrderService $fastOrderService, EntityRepository $orderLogRepository, EntityRepository $productRepository)
     {
-	$this->orderLogRepository = $orderLogRepository;
-	$this->fastOrderService = $fastOrderService;
-	$this->productRepository = $productRepository;
+        $this->orderLogRepository = $orderLogRepository;
+        $this->fastOrderService = $fastOrderService;
+        $this->productRepository = $productRepository;
     }
 
     #[Route(
@@ -51,15 +53,15 @@ class ShoppingCartController extends StorefrontController
     )]
     public function addToCart(Request $request, SalesChannelContext $context): RedirectResponse
     {
-	$customer = $context->getCustomer();
+        $customer = $context->getCustomer();
         if (!$customer instanceof CustomerEntity) {
             return $this->redirectToRoute('frontend.account.login.page');  // Redirect to login if not logged in
         }
 
         // Proceed with adding to cart
-	$this->fastOrderService->addToCart($request, $context);
+        $this->fastOrderService->addToCart($request, $context);
 
-	// Redirect to cart page after successful addition
+        // Redirect to cart page after successful addition
         return $this->redirectToRoute('frontend.checkout.cart.page');
     }
 
@@ -113,7 +115,7 @@ class ShoppingCartController extends StorefrontController
         $criteria->addFilter(new ContainsFilter('productNumber', $query));
         $criteria->setLimit(10);
 
-	$products = $this->productRepository->search($criteria, $context->getContext());
+        $products = $this->productRepository->search($criteria, $context->getContext());
 
         $results = [];
 
@@ -126,5 +128,5 @@ class ShoppingCartController extends StorefrontController
         }
 
         return new JsonResponse($results);
-    }    
+    }
 }

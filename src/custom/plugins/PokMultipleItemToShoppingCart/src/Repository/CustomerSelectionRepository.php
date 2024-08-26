@@ -1,4 +1,5 @@
 <?php
+
 // custom/plugins/SwagFastOrder/src/Repository/CustomerSelectionRepository.php
 
 namespace PokMultipleItemToShoppingCart\Repository;
@@ -18,30 +19,29 @@ use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityLoadedEventFactory;
 
 class CustomerSelectionRepository extends EntityRepository
 {
-     private $repository;
+    private $repository;
 
-     public function __construct(
-	CustomerSelectionDefinition $definition,
-	EntityReaderInterface $entityReader,
-	VersionManager $versionManager,
-	EntitySearcherInterface $entitySearcher,
-	EntityAggregatorInterface $entityAggregator,
-	EventDispatcherInterface $eventDispatcher,
+    public function __construct(
+        CustomerSelectionDefinition $definition,
+        EntityReaderInterface $entityReader,
+        VersionManager $versionManager,
+        EntitySearcherInterface $entitySearcher,
+        EntityAggregatorInterface $entityAggregator,
+        EventDispatcherInterface $eventDispatcher,
         EntityLoadedEventFactory $eventFactory
-     )
-     {
-	     parent::__construct(
-	               $definition,
-                       $entityReader,
-                       $versionManager,
-                       $entitySearcher,
-                       $entityAggregator,
-                       $eventDispatcher,
-                       $eventFactory	     
-	     );
-     }
+    ) {
+        parent::__construct(
+            $definition,
+            $entityReader,
+            $versionManager,
+            $entitySearcher,
+            $entityAggregator,
+            $eventDispatcher,
+            $eventFactory
+        );
+    }
 
-     public function createCustomerSelection(array $data, Context $context): void
+    public function createCustomerSelection(array $data, Context $context): void
     {
         $this->create($data, $context);
     }
@@ -54,4 +54,3 @@ class CustomerSelectionRepository extends EntityRepository
         return $this->search($criteria, $context);
     }
 }
-
